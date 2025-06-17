@@ -1,0 +1,99 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace ApiGateway.Controllers
+{
+    [ApiController]
+    [Route("orders")]
+    [Tags("Orders")]
+    public class OrdersController : ControllerBase
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly string _ordersServiceUrl;
+
+        public OrdersController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+            _ordersServiceUrl = Environment.GetEnvironmentVariable("ORDERS_SERVICE_URL") ?? "http://orders-service:8080";
+        }
+
+        /// <summary>
+        /// Create an order.
+        /// </summary>
+        /// <param name="request">Order creation details.</param>
+        /// <returns>Created order ID.</returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
+        {
+            var client = _httpClientFactory.CreateClient("OrdersService");
+            var downstreamUrl = $"{_ordersServiceUrl}/api/orders";
+
+            var response = await ProxyRequest(client, downstreamUrl, HttpMethod.Post, request);
+            return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Get list of orders.
+        /// </summary>
+        /// <returns>List of orders.</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetOrders([FromQuery] Guid userId)
+        {
+            var client = _httpClientFactory.CreateClient("OrdersService");
+            var downstreamUrl = $"{_ordersServiceUrl}/api/orders?userId={userId}";
+
+            var response = await ProxyRequest(client, downstreamUrl, HttpMethod.Get, null);
+            return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Get status of a specific order.
+        /// </summary>
+        /// <param name="orderId">Order ID.</param>
+        /// <returns>Status of the order.</returns>
+        [HttpGet("{orderId}/status")]
+        public async Task<IActionResult> GetOrderStatus(string orderId)
+        {
+            var client = _httpClientFactory.CreateClient("OrdersService");
+            var downstreamUrl = $"{_ordersServiceUrl}/api/orders/{orderId}/status";
+
+            var response = await ProxyRequest(client, downstreamUrl, HttpMethod.Get, null);
+            return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Proxy helper method.
+        /// </summary>
+        private async Task<HttpResponseMessage> ProxyRequest(HttpClient client, string url, HttpMethod method, object content)
+        {
+            var request = new HttpRequestMessage(method, url);
+
+            if (content != null)
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(content);
+                request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            }            
+
+            // Copy headers except Host and Content-Length
+            foreach (var header in Request.Headers)
+            {
+                if (header.Key.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
+                    header.Key.Equals("Content-Length", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (!request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()) && request.Content != null)
+                {
+                    request.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                }
+            }
+
+            return await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, HttpContext.RequestAborted);
+        }
+    }
+
+    /// <summary>
+    /// DTO for creating an order.
+    /// </summary>
+    public record CreateOrderRequest(Guid userId, decimal amount);
+}

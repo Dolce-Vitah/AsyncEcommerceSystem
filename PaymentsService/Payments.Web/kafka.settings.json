@@ -1,0 +1,8 @@
+{
+  "Kafka": {
+    "BootstrapServers": "kafka:9092",
+    "GroupId": "payments-service-group",
+    "Topic_OrderCreated": "order.created",
+    "Topic_PaymentProcessed": "payment.processed"
+  }
+}
