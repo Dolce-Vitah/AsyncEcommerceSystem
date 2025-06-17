@@ -18,11 +18,6 @@ namespace ApiGateway.Controllers
             _paymentsServiceUrl = Environment.GetEnvironmentVariable("PAYMENTS_SERVICE_URL") ?? "http://payments-service:8080";
         }
 
-        /// <summary>
-        /// Create an account.
-        /// </summary>
-        /// <param name="request">Account creation details.</param>
-        /// <returns>Created account ID.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
         {
@@ -33,12 +28,6 @@ namespace ApiGateway.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        /// <summary>
-        /// Top up an account.
-        /// </summary>
-        /// <param name="accountId">Account ID.</param>
-        /// <param name="request">Top-up amount.</param>
-        /// <returns>No content.</returns>
         [HttpPost("{accountId}/topup")]
         public async Task<IActionResult> TopUpAccount(string accountId, [FromBody] TopUpAccountRequest request)
         {
@@ -49,11 +38,6 @@ namespace ApiGateway.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        /// <summary>
-        /// Get the balance of an account.
-        /// </summary>
-        /// <param name="accountId">Account ID.</param>
-        /// <returns>Account balance.</returns>
         [HttpGet("{accountId}/balance")]
         public async Task<IActionResult> GetAccountBalance(string accountId)
         {
@@ -63,10 +47,7 @@ namespace ApiGateway.Controllers
             var response = await ProxyRequest(client, downstreamUrl, HttpMethod.Get, null);
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
-
-        /// <summary>
-        /// Proxy helper method.
-        /// </summary>
+        
         private async Task<HttpResponseMessage> ProxyRequest(HttpClient client, string url, HttpMethod method, object content)
         {
             var request = new HttpRequestMessage(method, url);
@@ -77,7 +58,6 @@ namespace ApiGateway.Controllers
                 request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             }
 
-            // Copy headers except Host
             foreach (var header in Request.Headers)
             {
                 if (header.Key.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
@@ -94,13 +74,7 @@ namespace ApiGateway.Controllers
         }
     }
 
-    /// <summary>
-    /// DTO for creating an account.
-    /// </summary>
     public record CreateAccountRequest(Guid UserId);
 
-    /// <summary>
-    /// DTO for topping up an account.
-    /// </summary>
     public record TopUpAccountRequest(decimal Amount);
 }

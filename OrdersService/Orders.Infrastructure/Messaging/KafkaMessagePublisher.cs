@@ -28,7 +28,6 @@ namespace Orders.Infrastructure.Messaging
             };
 
             var message = new Message<Null, string> { Value = payload };
-            // Посылаем без ожидания подтверждения, но можем дождаться при необходимости
             await _producer.ProduceAsync(t, message, ct);
         }
     }

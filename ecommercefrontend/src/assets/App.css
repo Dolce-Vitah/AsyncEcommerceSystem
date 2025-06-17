@@ -1,0 +1,141 @@
+body {
+    background: #f6f8fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-navbar {
+    background: #24292f;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 56px;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.nav-link:hover {
+    background: #30363d;
+    color: #58a6ff;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 40px;
+    min-height: 200px;
+}
+
+.notfound {
+    text-align: center;
+    color: #888;
+}
+
+.home-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    gap: 32px;
+    flex-direction: row;
+}
+
+.home-list {
+    text-align: left;
+    display: inline-block;
+    margin: 8px 0 24px 0;
+    padding-left: 24px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.home-list li {
+    margin-bottom: 8px;
+}
+
+.home-btn-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+    width: auto;
+}
+
+.home-btn {
+    display: inline-block;
+    background: #333b45;
+    color: #fff;
+    padding: 12px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.home-btn:hover {
+    background: #24292f;
+    color: #fff;
+}
+
+.home-image-container {
+    flex: 0 0 340px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.home-image {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+}
+
+@media (max-width: 700px) {
+    .navbar-content, .main-container {
+        flex-direction: column;
+        padding: 12px;
+    }
+
+    .main-container {
+        padding: 16px;
+    }
+
+    .navbar-links {
+        gap: 10px;
+    }
+}

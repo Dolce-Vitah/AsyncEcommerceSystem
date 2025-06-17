@@ -18,11 +18,6 @@ namespace ApiGateway.Controllers
             _ordersServiceUrl = Environment.GetEnvironmentVariable("ORDERS_SERVICE_URL") ?? "http://orders-service:8080";
         }
 
-        /// <summary>
-        /// Create an order.
-        /// </summary>
-        /// <param name="request">Order creation details.</param>
-        /// <returns>Created order ID.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
         {
@@ -33,10 +28,6 @@ namespace ApiGateway.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        /// <summary>
-        /// Get list of orders.
-        /// </summary>
-        /// <returns>List of orders.</returns>
         [HttpGet]
         public async Task<IActionResult> GetOrders([FromQuery] Guid userId)
         {
@@ -47,11 +38,6 @@ namespace ApiGateway.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        /// <summary>
-        /// Get status of a specific order.
-        /// </summary>
-        /// <param name="orderId">Order ID.</param>
-        /// <returns>Status of the order.</returns>
         [HttpGet("{orderId}/status")]
         public async Task<IActionResult> GetOrderStatus(string orderId)
         {
@@ -62,9 +48,6 @@ namespace ApiGateway.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
 
-        /// <summary>
-        /// Proxy helper method.
-        /// </summary>
         private async Task<HttpResponseMessage> ProxyRequest(HttpClient client, string url, HttpMethod method, object content)
         {
             var request = new HttpRequestMessage(method, url);
@@ -75,7 +58,6 @@ namespace ApiGateway.Controllers
                 request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             }            
 
-            // Copy headers except Host and Content-Length
             foreach (var header in Request.Headers)
             {
                 if (header.Key.Equals("Host", StringComparison.OrdinalIgnoreCase) ||
@@ -92,8 +74,5 @@ namespace ApiGateway.Controllers
         }
     }
 
-    /// <summary>
-    /// DTO for creating an order.
-    /// </summary>
     public record CreateOrderRequest(Guid userId, decimal amount);
 }

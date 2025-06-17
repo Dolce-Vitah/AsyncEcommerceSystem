@@ -16,7 +16,7 @@ namespace Payments.UseCases.Queries
 
         public async Task<decimal?> Handle(GetBalanceQuery rq, CancellationToken ct)
         {
-            var account = _accounts.GetAsync(rq.AccountId, ct);
+            var account = await _accounts.GetAsync(rq.AccountId, ct);
             if (account == null)
             {
                 throw new NotFoundException($"Account with ID {rq.AccountId} doesn't exist.");

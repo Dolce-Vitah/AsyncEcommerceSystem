@@ -16,7 +16,7 @@ namespace Orders.Domain.Models
 
         public Order(Guid userId, decimal amount)
         {
-            ID = new Guid();
+            ID = Guid.NewGuid();
             UserId = userId;
             Amount = amount;
             Status = OrderStatus.Pending;
