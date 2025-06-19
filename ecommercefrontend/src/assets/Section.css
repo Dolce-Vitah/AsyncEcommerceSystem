@@ -1,0 +1,222 @@
+.page-flex-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 32px;
+}
+
+.page-main {
+    flex: 1 1 600px;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(37,99,235,0.10), 0 1.5px 6px rgba(0,0,0,0.04);
+    padding: 14px 32px 18px 32px;
+}
+
+h2 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.page-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.page-section label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #1e293b;
+    letter-spacing: 0.5px;
+}
+
+.page-input {
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1.5px solid #cbd5e1;
+    width: 240px;
+    font-size: 1rem;
+    background: #f1f5f9;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.page-input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px #2563eb22;
+}
+
+.page-btn {
+    margin-bottom: 7px;
+    padding: 10px 22px;
+    background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.page-btn:hover {
+    background: linear-gradient(90deg, #1e40af 0%, #0ea5e9 100%);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.13);
+}
+
+.page-info, .page-balance {
+    margin-top: 10px;
+    font-size: 1.13rem;
+    color: #2563eb;
+    text-align: center;
+    background: #e0e7ff;
+    border-radius: 6px;
+    padding: 8px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-tabs {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    justify-content: center;
+}
+
+.page-tabs button {
+    padding: 8px 20px;
+    width: 180px;
+    border: none;
+    background: #e5e7eb;
+    color: #333;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.page-tabs button.active {
+    background: #f0f6ff;
+    color: #1e40af;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+}
+
+.page-tabs button:not(.active):hover {
+    background: #e0e7ff;
+    color: #1e40af;
+}
+
+.page-tab-content {
+    background: #f8fafc;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.04);
+    padding: 16px 14px 14px 14px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.page-error {
+    color: #b91c1c;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.page-history {
+    width: 400px;
+    min-width: 260px;
+    max-width: 420px;
+    margin-top: 0;
+    margin-left: 80px;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 8px rgba(37,99,235,0.10);
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1.5px solid #e0e7ff;
+}
+
+.page-history h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #2563eb;
+    margin-bottom: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.page-history-empty {
+    color: #64748b;
+    font-size: 0.98rem;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.page-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-history-item {
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.page-history-item:last-child {
+    border-bottom: none;
+}
+
+.page-history-time {
+    color: #64748b;
+    font-size: 0.92em;
+    background: #e0e7ff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-right: 4px;
+    min-width: 60px;
+    text-align: center;
+    font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+}
+
+@media (max-width: 600px) {
+    .page-flex-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+        padding: 16px 0;
+    }
+
+    .page-history {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+    }
+}

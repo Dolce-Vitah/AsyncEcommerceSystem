@@ -1,4 +1,3 @@
-// File: ApiGateway/Program.cs
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -17,10 +16,18 @@ builder.Services.AddHttpClient("PaymentsService")
         AllowAutoRedirect = false
     });
 
-// Add controllers
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 
-// Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -29,20 +36,18 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Enable middleware to serve generated Swagger as a JSON endpoint.
+app.UseCors("AllowFrontend");
+
 app.UseSwagger();
 
-// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Gateway V1");
-    c.RoutePrefix = string.Empty; // Set Swagger UI at apps root
+    c.RoutePrefix = string.Empty;
 });
 
-// Enable routing
 app.UseRouting();
 
-// Map controllers
 app.MapControllers();
 
 app.Run();

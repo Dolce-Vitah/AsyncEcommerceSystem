@@ -31,11 +31,9 @@ namespace Orders.Infrastructure.HostedServices
                 {
                     foreach (var msg in messages)
                     {
-                        // публикуем в Kafka
                         await publisher.PublishAsync(msg.Type, msg.Payload, ct);
                         await outbox.MarkProcessedAsync(msg.Id, ct);
                     }
-                    // фиксируем статус Outbox-Message
                     await ordersUow.SaveChangesAsync(ct);
                 }
 
